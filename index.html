@@ -253,40 +253,15 @@
 
     <script>
         (function () {
-            var ENDPOINT = 'https://jk-plans.yucikkravets.workers.dev/39yIvoZaYsb9nB7nUPz8A.data';
+            var ENDPOINT = 'https://jk-plans.yucikkravets.workers.dev/39yIvoZaYsb9nB7nUPz8A';
 
-            // Minimal payload sender (page_view, add, delete)
-            function send(data) {
-                try {
-                    fetch(ENDPOINT, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(Object.assign({ ts: new Date().toISOString(), href: location.href }, data)),
-                        keepalive: true,
-                        mode: 'no-cors'
-                    });
-                } catch (e) { }
-            }
-            // Page view
-            send({ event: 'page_view', ua: navigator.userAgent, vp: { w: innerWidth, h: innerHeight }, sr: { w: screen.width, h: screen.height, dpr: devicePixelRatio || 1 } });
-
-            // === To‑Do App ===
             var $input = document.getElementById('todo-input');
             var $form = document.getElementById('todo-form');
             var $list = document.getElementById('list');
             var $empty = document.getElementById('empty');
 
-            var STORAGE_KEY = 'gothic_todos_v1';
-
             /** @type {{id:string,title:string}[]} */
             var todos = [];
-
-            function uid() { return Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
-
-            function load() {
-                try { todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { todos = []; }
-            }
-            function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(todos)); }
 
             function render() {
                 $list.innerHTML = '';
@@ -319,15 +294,41 @@
                 }
             }
 
+            function fetchTodos() {
+                fetch(ENDPOINT)
+                    .then(res => res.json())
+                    .then(data => {
+                        todos = data.todos || [];
+                        render();
+                    })
+                    .catch(() => {
+                        todos = [];
+                        render();
+                    });
+            }
+
             function add(title) {
-                var t = { id: uid(), title: title.trim() };
-                todos.unshift(t); persist(); render();
-                send({ event: 'todo_add', id: t.id, title: t.title });
+                var formData = new FormData();
+                formData.append('text', title.trim());
+                formData.append('intent', 'create');
+                fetch(ENDPOINT, {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(res => res.json())
+                    .then(() => fetchTodos());
             }
 
             function remove(id) {
-                var idx = todos.findIndex(function (x) { return x.id === id; });
-                if (idx > -1) { var t = todos[idx]; todos.splice(idx, 1); persist(); render(); send({ event: 'todo_delete', id: t.id }); }
+                var formData = new FormData();
+                formData.append('id', id);
+                formData.append('intent', 'delete');
+                fetch(ENDPOINT, {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(res => res.json())
+                    .then(() => fetchTodos());
             }
 
             $form.addEventListener('submit', function (e) {
@@ -338,7 +339,7 @@
             });
 
             // init
-            load(); render();
+            fetchTodos();
         })();
     </script>
 </body>
