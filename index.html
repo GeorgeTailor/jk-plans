@@ -138,7 +138,20 @@
             flex-wrap: wrap;
         }
 
-        input[type="text"] {
+        input[type="text"],
+        textarea {
+            flex: 1;
+            padding: .85rem 1rem;
+            color: var(--ink);
+            background: var(--bg-elev);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, .35);
+            outline: none;
+            transition: border-color .2s ease;
+            font-size: 1rem;
+            min-height: 2.5em;
+            max-height: 12em;
             flex: 1;
             padding: .85rem 1rem;
             color: var(--ink);
@@ -150,7 +163,10 @@
             transition: border-color .2s ease;
         }
 
-        input[type="text"]:focus {
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(139, 0, 0, .25), inset 0 2px 8px rgba(0, 0, 0, .35);
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(139, 0, 0, .25), inset 0 2px 8px rgba(0, 0, 0, .35);
         }
@@ -302,7 +318,8 @@
 
         <main>
             <form id="todo-form" autocomplete="off" aria-label="Dodaj nowe zadanie">
-                <input id="todo-input" type="text" placeholder="Dodaj pomysł…" required />
+                <textarea id="todo-input" placeholder="Dodaj pomysł…" required rows="2"
+                    style="resize:vertical;"></textarea>
                 <button class="add" type="submit">Dodaj</button>
             </form>
 
@@ -343,6 +360,8 @@
                     });
                     title.appendChild(toggle);
 
+                    var text = document.createElement('span');
+                    text.className = 'text';
                     var parts = t.text.split(/(https?:\/\/[^\s]+)/g);
                     parts.forEach(function (part) {
                         if (/^https?:\/\/[^\s]+$/.test(part)) {
