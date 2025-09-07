@@ -343,20 +343,19 @@
                     });
                     title.appendChild(toggle);
 
-                    var urlMatch = (typeof t.text === 'string') ? t.text.match(/https?:\/\/[^\s]+/) : null;
-                    var text;
-                    if (urlMatch) {
-                        text = document.createElement('a');
-                        text.href = urlMatch[0];
-                        text.textContent = t.text;
-                        text.className = 'text';
-                        text.target = '_blank';
-                        text.rel = 'noopener noreferrer';
-                    } else {
-                        text = document.createElement('span');
-                        text.textContent = t.text;
-                        text.className = 'text';
-                    }
+                    var parts = t.text.split(/(https?:\/\/[^\s]+)/g);
+                    parts.forEach(function (part) {
+                        if (/^https?:\/\/[^\s]+$/.test(part)) {
+                            var a = document.createElement('a');
+                            a.href = part;
+                            a.textContent = part;
+                            a.target = '_blank';
+                            a.rel = 'noopener noreferrer';
+                            text.appendChild(a);
+                        } else {
+                            text.appendChild(document.createTextNode(part));
+                        }
+                    });
                     title.appendChild(text);
 
                     var ctrls = document.createElement('div');
