@@ -187,13 +187,7 @@
             gap: .6rem;
         }
 
-        .bullet {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(139, 0, 0, .6);
-            background: var(--accent);
-        }
+
 
         /* Gothic Checkbox */
         .toggle[type="checkbox"] {
@@ -301,28 +295,29 @@
                     row.className = 'item';
                     row.dataset.id = t.id;
 
-                    var title = document.createElement('div');
+                    var title = document.createElement('label');
                     title.className = 'title';
-                    var bullet = document.createElement('span'); bullet.className = 'bullet'; bullet.setAttribute('aria-hidden', 'true');
-                    var text = document.createElement('span'); text.textContent = t.text; text.className = 'text';
-                    title.appendChild(bullet); title.appendChild(text);
 
-                    // Add toggle checkbox
                     var toggle = document.createElement('input');
                     toggle.type = 'checkbox';
                     toggle.className = 'toggle';
                     toggle.checked = !!t.completed;
-                    toggle.setAttribute('aria-label', 'Toggle "' + t.text + '"');
+                    toggle.setAttribute('aria-label', t.text);
                     toggle.addEventListener('change', function (ev) {
                         var id = ev.currentTarget.closest('.item').dataset.id;
                         toggleTodo(id);
                     });
                     title.appendChild(toggle);
 
+                    var text = document.createElement('span');
+                    text.textContent = t.text;
+                    text.className = 'text';
+                    title.appendChild(text);
+
                     var ctrls = document.createElement('div');
                     ctrls.className = 'controls';
                     var del = document.createElement('button');
-                    del.className = 'del'; del.type = 'button'; del.textContent = 'Delete'; del.setAttribute('aria-label', 'Delete "' + t.text + '"');
+                    del.className = 'del'; del.type = 'button'; del.textContent = 'Usuń'; del.setAttribute('aria-label', 'Delete "' + t.text + '"');
                     del.addEventListener('click', function (ev) {
                         var id = ev.currentTarget.closest('.item').dataset.id;
                         remove(id);
