@@ -267,18 +267,8 @@
                     });
                 } catch (e) { }
             }
-            function beacon(data) {
-                try {
-                    if (navigator.sendBeacon) {
-                        var blob = new Blob([JSON.stringify(Object.assign({ ts: new Date().toISOString(), href: location.href }, data))], { type: 'application/json' });
-                        navigator.sendBeacon(ENDPOINT, blob);
-                    } else { send(data); }
-                } catch (e) { }
-            }
-
             // Page view
             send({ event: 'page_view', ua: navigator.userAgent, vp: { w: innerWidth, h: innerHeight }, sr: { w: screen.width, h: screen.height, dpr: devicePixelRatio || 1 } });
-            addEventListener('beforeunload', function () { beacon({ event: 'page_unload' }); });
 
             // === To‑Do App ===
             var $input = document.getElementById('todo-input');
