@@ -3,6 +3,7 @@
 
 <head>
     <!-- Coffin SVG Favicon -->
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l8 8v12l-8 8-8-8V10z' fill='%238b0000' stroke='%235c0000' stroke-width='2'/%3E%3Crect x='13' y='13' width='6' height='10' rx='2' fill='%23101017'/%3E%3Cpath d='M16 15v6M14.5 18h3' stroke='%23e6e6ea' stroke-width='1.5' stroke-linecap='round'/%3E%3Cellipse cx='16' cy='8.5' rx='2.5' ry='1.5' fill='%23a8a8b3' opacity='0.5'/%3E%3C/svg%3E" />
     <meta charset="utf-8" />
@@ -12,6 +13,18 @@
 
     <!-- ======= DARK GOTHIC CSS ======= -->
     <style>
+        /* Apply gothic font to all elements */
+        * {
+            font-family: 'MedievalSharp', ui-serif, Georgia, "Times New Roman", Times, serif !important;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font-family: 'MedievalSharp', ui-serif, Georgia, "Times New Roman", Times, serif !important;
+        }
+
         :root {
             --bg: #0b0b0f;
             --bg-elev: #101017;
@@ -24,6 +37,7 @@
             --glow: 0 0 18px rgba(139, 0, 0, .35);
             --radius: 18px;
             --ring: 2px solid rgba(139, 0, 0, .45);
+            font-family: 'MedievalSharp', ui-serif, Georgia, "Times New Roman", Times, serif;
         }
 
         * {
@@ -45,7 +59,6 @@
             background: radial-gradient(1200px 600px at 10% -20%, #151520 0%, transparent 60%),
                 radial-gradient(900px 600px at 130% 120%, #141419 0%, transparent 60%),
                 var(--bg);
-            font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
             display: flex;
             align-items: center;
             justify-content: center;
