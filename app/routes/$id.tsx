@@ -21,6 +21,10 @@ export const loader = async ({ params, context }: LoaderFunctionArgs) => {
 };
 
 export async function action({ request, context, params }: ActionFunctionArgs) {
+  if (request.method === "OPTIONS") {
+    // Respond to CORS preflight
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
   const todoManager = new TodoManager(
     context.cloudflare.env.TO_DO_LIST,
     params.id,
