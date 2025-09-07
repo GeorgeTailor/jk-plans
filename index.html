@@ -276,13 +276,13 @@
                     var title = document.createElement('div');
                     title.className = 'title';
                     var bullet = document.createElement('span'); bullet.className = 'bullet'; bullet.setAttribute('aria-hidden', 'true');
-                    var text = document.createElement('span'); text.textContent = t.title; text.className = 'text';
+                    var text = document.createElement('span'); text.textContent = t.text; text.className = 'text';
                     title.appendChild(bullet); title.appendChild(text);
 
                     var ctrls = document.createElement('div');
                     ctrls.className = 'controls';
                     var del = document.createElement('button');
-                    del.className = 'del'; del.type = 'button'; del.textContent = 'Delete'; del.setAttribute('aria-label', 'Delete "' + t.title + '"');
+                    del.className = 'del'; del.type = 'button'; del.textContent = 'Delete'; del.setAttribute('aria-label', 'Delete "' + t.text + '"');
                     del.addEventListener('click', function (ev) {
                         var id = ev.currentTarget.closest('.item').dataset.id;
                         remove(id);
