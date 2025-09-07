@@ -3,7 +3,6 @@ import {
   type ActionFunctionArgs,
   json
 } from "@remix-run/cloudflare";
-import { useLoaderData, Form } from "@remix-run/react";
 import { TodoManager } from "~/to-do-manager";
 
 export const loader = async ({ params, context }: LoaderFunctionArgs) => {
@@ -47,10 +46,4 @@ export async function action({ request, context, params }: ActionFunctionArgs) {
     default:
       return Response.json({ error: "Invalid intent" }, { status: 400 });
   }
-}
-
-export default function () {
-  const { todos } = useLoaderData<typeof loader>();
-
-  return todos;
 }
