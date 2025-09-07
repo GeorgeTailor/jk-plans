@@ -1,6 +1,7 @@
 import {
   type LoaderFunctionArgs,
   type ActionFunctionArgs,
+  json
 } from "@remix-run/cloudflare";
 import { useLoaderData, Form } from "@remix-run/react";
 import { TodoManager } from "~/to-do-manager";
@@ -11,7 +12,7 @@ export const loader = async ({ params, context }: LoaderFunctionArgs) => {
     params.id,
   );
   const todos = await todoManager.list();
-  return { todos };
+  return json({ todos });
 };
 
 export async function action({ request, context, params }: ActionFunctionArgs) {
