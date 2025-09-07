@@ -2,9 +2,12 @@
 <html lang="en">
 
 <head>
+    <!-- Coffin SVG Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l8 8v12l-8 8-8-8V10z' fill='%238b0000' stroke='%235c0000' stroke-width='2'/%3E%3Crect x='13' y='13' width='6' height='10' rx='2' fill='%23101017'/%3E%3Cpath d='M16 15v6M14.5 18h3' stroke='%23e6e6ea' stroke-width='1.5' stroke-linecap='round'/%3E%3Cellipse cx='16' cy='8.5' rx='2.5' ry='1.5' fill='%23a8a8b3' opacity='0.5'/%3E%3C/svg%3E" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Our Kinky To‑Do List</title>
+    <title>JK List</title>
     <base href="/" />
 
     <!-- ======= DARK GOTHIC CSS ======= -->
@@ -248,12 +251,6 @@
             filter: brightness(1.1)
         }
 
-        .empty {
-            color: var(--muted);
-            font-style: italic;
-            padding: .25rem .25rem .75rem
-        }
-
         footer {
             padding: .9rem 1.25rem 1.25rem;
             color: var(--muted);
@@ -270,24 +267,18 @@
     <div class="frame" role="application" aria-label="Gothic To‑Do">
         <header>
             <h1>
-                Our Kinky Ledger
+                JK
             </h1>
         </header>
 
         <main>
-            <form id="todo-form" autocomplete="off" aria-label="Add a new kinky task">
-                <input id="todo-input" type="text" placeholder="Add a naughty idea for us…"
-                    aria-label="Kinky task title" required />
-                <button class="add" type="submit" aria-label="Add kinky task">Add</button>
+            <form id="todo-form" autocomplete="off" aria-label="Dodaj nowe zadanie">
+                <input id="todo-input" type="text" placeholder="Dodaj pomysł…" aria-label="zadanie" required />
+                <button class="add" type="submit" aria-label="Dodaj zadanie">Dodaj</button>
             </form>
 
-            <div id="empty" class="empty">No kinky tasks yet. Let's add something fun…</div>
             <div id="list" class="list" aria-live="polite" aria-relevant="additions removals"></div>
         </main>
-
-        <footer>
-            Just for us. Our kinky tasks are private.
-        </footer>
     </div>
 
     <script>
@@ -297,15 +288,13 @@
             var $input = document.getElementById('todo-input');
             var $form = document.getElementById('todo-form');
             var $list = document.getElementById('list');
-            var $empty = document.getElementById('empty');
 
             /** @type {{id:string,title:string}[]} */
             var todos = [];
 
             function render() {
                 $list.innerHTML = '';
-                if (!todos.length) { $empty.style.display = 'block'; return; }
-                $empty.style.display = 'none';
+                if (!todos.length) { return; }
                 for (var i = 0; i < todos.length; i++) {
                     var t = todos[i];
                     var row = document.createElement('div');
