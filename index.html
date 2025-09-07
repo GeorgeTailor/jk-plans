@@ -186,9 +186,10 @@
         }
 
         .item {
-            display: grid;
-            grid-template-columns: 1fr auto;
+            display: flex;
             align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
             gap: .75rem;
             padding: .85rem 1rem;
             border-radius: 12px;
@@ -202,12 +203,10 @@
             gap: .6rem;
         }
 
-
-
         /* Gothic Checkbox */
         .toggle[type="checkbox"] {
-            min-width: 32px;
-            width: 32px;
+            min-width: 24px;
+            width: 24px;
 
             appearance: none;
             width: 22px;
@@ -267,13 +266,14 @@
         }
 
         button.del {
-            padding: .55rem .7rem;
+            padding: .75rem 1rem;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, .1);
             background: linear-gradient(180deg, rgba(50, 0, 0, .8), rgba(30, 0, 0, .85));
             color: #fff;
             cursor: pointer;
             font-weight: 600;
+            width: 100%;
         }
 
         button.del:hover {
