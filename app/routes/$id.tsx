@@ -5,13 +5,19 @@ import {
 } from "@remix-run/cloudflare";
 import { TodoManager } from "~/to-do-manager";
 
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "https://georgetailor.github.io",
+  "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
 export const loader = async ({ params, context }: LoaderFunctionArgs) => {
   const todoManager = new TodoManager(
     context.cloudflare.env.TO_DO_LIST,
     params.id,
   );
   const todos = await todoManager.list();
-  return json({ todos });
+  return json({ todos }, { headers: CORS_HEADERS });
 };
 
 export async function action({ request, context, params }: ActionFunctionArgs) {
@@ -28,22 +34,22 @@ export async function action({ request, context, params }: ActionFunctionArgs) {
       if (typeof text !== "string" || !text)
         return Response.json({ error: "Invalid text" }, { status: 400 });
       await todoManager.create(text);
-      return { success: true };
+      return json({ success: true }, { headers: CORS_HEADERS });
     }
 
     case "toggle": {
       const id = formData.get("id") as string;
       await todoManager.toggle(id);
-      return { success: true };
+      return json({ success: true }, { headers: CORS_HEADERS });
     }
 
     case "delete": {
       const id = formData.get("id") as string;
       await todoManager.delete(id);
-      return { success: true };
+      return json({ success: true }, { headers: CORS_HEADERS });
     }
 
     default:
-      return Response.json({ error: "Invalid intent" }, { status: 400 });
+      return Response.json({ error: "Invalid intent" }, { status: 400, headers: CORS_HEADERS });
   }
 }
