@@ -258,7 +258,7 @@
 </head>
 
 <body>
-    <div class="frame" role="application" aria-label="Gothic To‑Do">
+    <div class="frame">
         <header>
             <h1>
                 JK
@@ -267,11 +267,11 @@
 
         <main>
             <form id="todo-form" autocomplete="off" aria-label="Dodaj nowe zadanie">
-                <input id="todo-input" type="text" placeholder="Dodaj pomysł…" aria-label="zadanie" required />
-                <button class="add" type="submit" aria-label="Dodaj zadanie">Dodaj</button>
+                <input id="todo-input" type="text" placeholder="Dodaj pomysł…" required />
+                <button class="add" type="submit">Dodaj</button>
             </form>
 
-            <div id="list" class="list" aria-live="polite" aria-relevant="additions removals"></div>
+            <div id="list" class="list"></div>
         </main>
     </div>
 
@@ -302,7 +302,6 @@
                     toggle.type = 'checkbox';
                     toggle.className = 'toggle';
                     toggle.checked = !!t.completed;
-                    toggle.setAttribute('aria-label', t.text);
                     toggle.addEventListener('change', function (ev) {
                         var id = ev.currentTarget.closest('.item').dataset.id;
                         toggleTodo(id);
@@ -317,7 +316,7 @@
                     var ctrls = document.createElement('div');
                     ctrls.className = 'controls';
                     var del = document.createElement('button');
-                    del.className = 'del'; del.type = 'button'; del.textContent = 'Usuń'; del.setAttribute('aria-label', 'Delete "' + t.text + '"');
+                    del.className = 'del'; del.type = 'button'; del.textContent = 'Usuń';
                     del.addEventListener('click', function (ev) {
                         var id = ev.currentTarget.closest('.item').dataset.id;
                         remove(id);
